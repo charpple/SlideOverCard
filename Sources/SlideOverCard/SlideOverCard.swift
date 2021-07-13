@@ -49,7 +49,7 @@ public struct SlideOverCard<Content: View>: View {
                     .transition(.opacity)
                     .zIndex(1)
                     .onTapGesture {
-                        print("TAPPED OUTSIDE")
+                        dismiss()
                     }
                 Group {
                     if #available(iOS 14.0, *) {
