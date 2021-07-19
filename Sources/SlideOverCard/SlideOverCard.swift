@@ -44,25 +44,30 @@ public struct SlideOverCard<Content: View>: View {
     public var body: some View {
         ZStack {
             if isPresented.wrappedValue {
-                Color.black.opacity(0.3)
+                Color.black.opacity(0.5)
                     .edgesIgnoringSafeArea(.all)
                     .transition(.opacity)
-                    .zIndex(1)
+                    
                     .onTapGesture {
                         dismiss()
                     }
+                    .zIndex(1)
                 Group {
                     if #available(iOS 14.0, *) {
                         container
                             .ignoresSafeArea(.container, edges: .bottom)
+                            .zIndex(2)
                     } else {
                         container
                             .edgesIgnoringSafeArea(.bottom)
+                            .zIndex(2)
                     }
                 }.transition(isiPad ? AnyTransition.opacity.combined(with: .offset(x: 0, y: 200)) : .move(edge: .bottom))
-                    .zIndex(2)
+                
             }
-        }.animation(.spring(response: 0.35, dampingFraction: 1))
+        }
+        .animation(.spring(response: 0.35, dampingFraction: 1))
+        
     }
     
     private var container: some View {
@@ -88,11 +93,13 @@ public struct SlideOverCard<Content: View>: View {
             
             content
                 .padding([.horizontal, options.contains(.hideExitButton) ? .vertical : .bottom], 14)
+                .transition(isiPad ? AnyTransition.opacity.combined(with: .offset(x: 0, y: 200)) : .move(edge: .bottom))
         }.padding(20)
         .background(RoundedRectangle(cornerRadius: 38.5, style: .continuous)
-                        .fill(Color(.systemGray6)))
+                        .fill(Color(.white)))
         .clipShape(RoundedRectangle(cornerRadius: 38.5, style: .continuous))
         .offset(x: 0, y: viewOffset/pow(2, abs(viewOffset)/500+1))
+        
         .gesture(
             options.contains(.disableDrag) ? nil :
                 DragGesture()
@@ -108,9 +115,10 @@ public struct SlideOverCard<Content: View>: View {
     }
     
     func dismiss() {
-        withAnimation {
-            isPresented.wrappedValue = false
+        DispatchQueue.main.async {
+            self.isPresented.wrappedValue = false
         }
+        
         if (onDismiss != nil) { onDismiss!() }
     }
 }
