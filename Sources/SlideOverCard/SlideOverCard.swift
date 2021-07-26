@@ -55,6 +55,8 @@ public struct SlideOverCard<Content: View>: View {
                 Group {
                     if #available(iOS 14.0, *) {
                         container
+                            .padding(5)
+                        
                             .ignoresSafeArea(.container, edges: .bottom)
                             .zIndex(2)
                     } else {
@@ -95,9 +97,9 @@ public struct SlideOverCard<Content: View>: View {
                 .padding([.horizontal, options.contains(.hideExitButton) ? .vertical : .bottom], 14)
                 .transition(isiPad ? AnyTransition.opacity.combined(with: .offset(x: 0, y: 200)) : .move(edge: .bottom))
         }.padding(20)
-        .background(RoundedRectangle(cornerRadius: 38.5, style: .continuous)
+        .background(RoundedRectangle(cornerRadius: UIScreen.main.displayCornerRadius - 2.5, style: .continuous)
                         .fill(Color(.white)))
-        .clipShape(RoundedRectangle(cornerRadius: 38.5, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: UIScreen.main.displayCornerRadius - 2.5, style: .continuous))
         .offset(x: 0, y: viewOffset/pow(2, abs(viewOffset)/500+1))
         
         .gesture(
@@ -199,5 +201,26 @@ struct SlideOverCard_Previews: PreviewProvider {
                 }
             }.frame(height: 480)
         }
+    }
+}
+
+
+extension UIScreen {
+    private static let cornerRadiusKey: String = {
+        let components = ["Radius", "Corner", "display", "_"]
+        return components.reversed().joined()
+    }()
+
+    /// The corner radius of the display. Uses a private property of `UIScreen`,
+    /// and may report 0 if the API changes.
+    public var displayCornerRadius: CGFloat {
+        guard let cornerRadius = self.value(forKey: Self.cornerRadiusKey) as? CGFloat else {
+            return 36
+        }
+
+        if cornerRadius == 0{
+            return 36
+        }
+        return cornerRadius
     }
 }
