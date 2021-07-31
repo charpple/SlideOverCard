@@ -44,6 +44,7 @@ public struct SlideOverCard<Content: View>: View {
     public var body: some View {
         ZStack {
             if isPresented.wrappedValue {
+                
                 Color.black.opacity(0.5)
                     .edgesIgnoringSafeArea(.all)
                     .transition(.opacity)
@@ -222,5 +223,15 @@ extension UIScreen {
             return 36
         }
         return cornerRadius
+    }
+}
+
+struct Blur: UIViewRepresentable {
+    var style: UIBlurEffect.Style = .systemMaterial
+    func makeUIView(context: Context) -> UIVisualEffectView {
+        return UIVisualEffectView(effect: UIBlurEffect(style: style))
+    }
+    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
+        uiView.effect = UIBlurEffect(style: style)
     }
 }
