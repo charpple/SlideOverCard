@@ -99,7 +99,7 @@ public struct SlideOverCard<Content: View>: View {
                 .transition(isiPad ? AnyTransition.opacity.combined(with: .offset(x: 0, y: 200)) : .move(edge: .bottom))
         }.padding(20)
         .background(RoundedRectangle(cornerRadius: UIScreen.main.displayCornerRadius - 2.5, style: .continuous)
-                        .fill(Color(.white)))
+                        .fill(Color(.systemGray6)))
         .clipShape(RoundedRectangle(cornerRadius: UIScreen.main.displayCornerRadius - 2.5, style: .continuous))
         .offset(x: 0, y: viewOffset/pow(2, abs(viewOffset)/500+1))
         
