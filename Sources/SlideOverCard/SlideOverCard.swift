@@ -7,23 +7,28 @@
 
 import SwiftUI
 
-public struct SlideOverCard<Content: View>: View {
+public struct SlideOverCard<Content: View>: View, KeyboardReadable {
     var isPresented: Binding<Bool>
+    @State var isKeyboardVisible = false
     let onDismiss: (() -> Void)?
+    let onTapOutside: (() -> Void)?
     var options: SOCOptions
     let content: Content
     
-    public init(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, options: SOCOptions = [], content: @escaping () -> Content) {
+    public init(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, onTapOutside: (() -> Void)? = nil, options: SOCOptions = [], content: @escaping () -> Content) {
         self.isPresented = isPresented
         self.onDismiss = onDismiss
+        self.onTapOutside = onTapOutside
         self.options = options
         self.content = content()
+        
     }
     
     @available(*, deprecated, message: "Replace option parameters with the new option set.")
-    public init(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, dragEnabled: Binding<Bool> = .constant(true), dragToDismiss: Binding<Bool> = .constant(true), displayExitButton: Binding<Bool> = .constant(true), content: @escaping () -> Content) {
+    public init(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, onTapOutside: (() -> Void)? = nil, dragEnabled: Binding<Bool> = .constant(true), dragToDismiss: Binding<Bool> = .constant(true), displayExitButton: Binding<Bool> = .constant(true), content: @escaping () -> Content) {
         self.isPresented = isPresented
         self.onDismiss = onDismiss
+        self.onTapOutside = onTapOutside
         
         var options = SOCOptions()
         if !dragEnabled.wrappedValue { options.insert(.disableDrag) }
@@ -42,6 +47,7 @@ public struct SlideOverCard<Content: View>: View {
     }
     
     public var body: some View {
+        
         ZStack {
             if isPresented.wrappedValue {
                 
@@ -50,14 +56,27 @@ public struct SlideOverCard<Content: View>: View {
                     .transition(.opacity)
                     
                     .onTapGesture {
-                        dismiss()
+                        if onTapOutside == nil{
+                            dismiss()
+                        }
+                        else{
+                            if isKeyboardVisible{
+                                onTapOutside!()
+                            }
+                            else{
+                                dismiss()
+                            }
+                        }
                     }
                     .zIndex(1)
+                    .onReceive(keyboardPublisher) { newIsKeyboardVisible in
+                        isKeyboardVisible = newIsKeyboardVisible
+                    }
                 Group {
                     if #available(iOS 14.0, *) {
                         container
                             .padding(5)
-                        
+                            
                             .ignoresSafeArea(.container, edges: .bottom)
                             .zIndex(2)
                     } else {
@@ -211,14 +230,14 @@ extension UIScreen {
         let components = ["Radius", "Corner", "display", "_"]
         return components.reversed().joined()
     }()
-
+    
     /// The corner radius of the display. Uses a private property of `UIScreen`,
     /// and may report 0 if the API changes.
     public var displayCornerRadius: CGFloat {
         guard let cornerRadius = self.value(forKey: Self.cornerRadiusKey) as? CGFloat else {
             return 36
         }
-
+        
         if cornerRadius == 0{
             return 36
         }

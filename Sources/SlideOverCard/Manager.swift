@@ -8,10 +8,12 @@
 import SwiftUI
 
 public struct SOCManager {
-    public static func present<Content:View>(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, options: SOCOptions = SOCOptions(), style: UIUserInterfaceStyle = .unspecified, @ViewBuilder content: @escaping () -> Content) {
+    public static func present<Content:View>(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, onTapOutside: (() -> Void)? = nil, options: SOCOptions = SOCOptions(), style: UIUserInterfaceStyle = .unspecified, @ViewBuilder content: @escaping () -> Content) {
         let rootCard = SlideOverCard(isPresented: isPresented, onDismiss: {
             dismiss(isPresented: isPresented)
-        }, options: options, content: content)
+        }, onTapOutside: onTapOutside, options: options, content: content)
+        
+        
         
         let controller = UIHostingController(rootView: rootCard)
         controller.view.backgroundColor = .clear
