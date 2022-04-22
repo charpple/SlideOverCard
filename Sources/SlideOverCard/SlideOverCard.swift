@@ -31,6 +31,7 @@ public struct SlideOverCard<Content: View>: View, KeyboardReadable {
         self.isPresented = isPresented
         self.onDismiss = onDismiss
         self.onTapOutside = onTapOutside
+        self.dismissOnTapOutside = true
         
         var options = SOCOptions()
         if !dragEnabled.wrappedValue { options.insert(.disableDrag) }
