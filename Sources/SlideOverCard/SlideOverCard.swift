@@ -11,13 +11,15 @@ public struct SlideOverCard<Content: View>: View, KeyboardReadable {
     var isPresented: Binding<Bool>
     @State var isKeyboardVisible = false
     let onDismiss: (() -> Void)?
+    let dismissOnTapOutside: Bool
     let onTapOutside: (() -> Void)?
     var options: SOCOptions
     let content: Content
     
-    public init(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, onTapOutside: (() -> Void)? = nil, options: SOCOptions = [], content: @escaping () -> Content) {
+    public init(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, onTapOutside: (() -> Void)? = nil, dismissOnTapOutside: Bool = true, options: SOCOptions = [], content: @escaping () -> Content) {
         self.isPresented = isPresented
         self.onDismiss = onDismiss
+        self.dismissOnTapOutside = dismissOnTapOutside
         self.onTapOutside = onTapOutside
         self.options = options
         self.content = content()
@@ -57,14 +59,19 @@ public struct SlideOverCard<Content: View>: View, KeyboardReadable {
                     
                     .onTapGesture {
                         if onTapOutside == nil{
-                            dismiss()
+                            if dismissOnTapOutside{
+                                dismiss()
+                            }
+                            
                         }
                         else{
                             if isKeyboardVisible{
                                 onTapOutside!()
                             }
                             else{
-                                dismiss()
+                                if dismissOnTapOutside{
+                                    dismiss()
+                                }
                             }
                         }
                     }
