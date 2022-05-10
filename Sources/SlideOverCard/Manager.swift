@@ -11,7 +11,7 @@ public struct SOCManager {
     @available(iOSApplicationExtension, unavailable)
     public static func present<Content:View>(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, options: SOCOptions = SOCOptions(), style: UIUserInterfaceStyle = .unspecified, @ViewBuilder content: @escaping () -> Content) {
         let rootCard = SlideOverCard(isPresented: isPresented, onDismiss: {
-            onDismiss() ?? ()
+            (onDismiss() ?? ())
             dismiss(isPresented: isPresented)
         }, options: options, content: content)
         
