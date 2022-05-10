@@ -13,7 +13,7 @@ public struct SOCManager {
         let rootCard = SlideOverCard(isPresented: isPresented, onDismiss: {
             onDismiss() ?? ()
             dismiss(isPresented: isPresented)
-        }, onTapOutside: onTapOutside, options: options, content: content)
+        }, options: options, content: content)
         
         
         
