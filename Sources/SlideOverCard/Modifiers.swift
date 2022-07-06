@@ -8,12 +8,12 @@
 import SwiftUI
 
 extension View {
-    public func slideOverCard<Content: View>(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, options: SOCOptions = [], @ViewBuilder content: @escaping () -> Content) -> some View {
+    public func slideOverCard<Content: View>(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, options: SOCOptions = [], dismissOnTapOutside: Bool = true, @ViewBuilder content: @escaping () -> Content) -> some View {
         return ZStack {
             self
             SlideOverCard(isPresented: isPresented,
                           onDismiss: onDismiss,
-                          options: options) {
+                          options: options, dismissOnTapOutside = dismissOnTapOutside) {
                 content()
             }
         }
