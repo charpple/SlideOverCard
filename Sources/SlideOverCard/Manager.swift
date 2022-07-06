@@ -14,8 +14,7 @@ public struct SOCManager {
             (onDismiss?())
             dismiss(isPresented: isPresented)
         },
-        dismissOnTapOutside: dismissOnTapOutside,
-        options: options, content: content)
+        options: options, dismissOnTapOutside: dismissOnTapOutside, content: content)
         
         let controller = UIHostingController(rootView: rootCard)
         controller.view.backgroundColor = .clear
