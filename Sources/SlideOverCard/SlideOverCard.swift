@@ -73,6 +73,7 @@ public struct SlideOverCard<Content: View>: View, KeyboardReadable {
                             }
                             else{
                                 if dismissOnTapOutside{
+                                    onTapOutside!()
                                     dismiss()
                                 }
                             }
