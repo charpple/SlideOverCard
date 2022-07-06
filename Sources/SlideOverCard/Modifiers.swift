@@ -15,7 +15,7 @@ extension View {
             SlideOverCard(isPresented: isPresented,
                           onDismiss: onDismiss,
                           options: options,
-                          dismissOnTapOutside = dismissOnTapOutside,
+                          dismissOnTapOutside: dismissOnTapOutside,
                           backgroundColor: backgroundColor) {
                 content()
             }
