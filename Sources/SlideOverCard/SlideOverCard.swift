@@ -15,13 +15,15 @@ public struct SlideOverCard<Content: View>: View, KeyboardReadable {
     let onTapOutside: (() -> Void)?
     var options: SOCOptions
     let content: Content
+    let backgroundColor: Color
     
-    public init(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, onTapOutside: (() -> Void)? = nil, dismissOnTapOutside: Bool = true, options: SOCOptions = [], content: @escaping () -> Content) {
+    public init(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, options: SOCOptions = [], dismissOnTapOutside: Bool = true, backgroundColor: Color = Color(.systemGray6), content: @escaping () -> Content) {
         self.isPresented = isPresented
         self.onDismiss = onDismiss
         self.dismissOnTapOutside = dismissOnTapOutside
         self.onTapOutside = onTapOutside
         self.options = options
+        self.backgroundColor = backgroundColor
         self.content = content()
         
     }
@@ -39,7 +41,7 @@ public struct SlideOverCard<Content: View>: View, KeyboardReadable {
         if !displayExitButton.wrappedValue { options.insert(.hideExitButton) }
         
         self.options = options
-        
+        self.backgroundColor = Color(.systemGray6)
         self.content = content()
     }
     
@@ -125,9 +127,9 @@ public struct SlideOverCard<Content: View>: View, KeyboardReadable {
                 .padding([.horizontal, options.contains(.hideExitButton) ? .vertical : .bottom], 14)
                 .transition(isiPad ? AnyTransition.opacity.combined(with: .offset(x: 0, y: 200)) : .move(edge: .bottom))
         }.padding(20)
-        .background(RoundedRectangle(cornerRadius: UIScreen.main.displayCornerRadius - 2.5, style: .continuous)
-                        .fill(Color(.systemGray6)))
-        .clipShape(RoundedRectangle(cornerRadius: UIScreen.main.displayCornerRadius - 2.5, style: .continuous))
+        .background(RoundedRectangle(cornerRadius: 38.5, style: .continuous)
+                        .fill(backgroundColor))
+        .clipShape(RoundedRectangle(cornerRadius: 38.5, style: .continuous))
         .offset(x: 0, y: viewOffset/pow(2, abs(viewOffset)/500+1))
         
         .gesture(
