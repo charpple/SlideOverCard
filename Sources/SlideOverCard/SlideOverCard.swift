@@ -17,7 +17,7 @@ public struct SlideOverCard<Content: View>: View, KeyboardReadable {
     let content: Content
     let backgroundColor: Color
     
-    public init(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, options: SOCOptions = [], dismissOnTapOutside: Bool = true, backgroundColor: Color = Color(.systemGray6), content: @escaping () -> Content) {
+    public init(isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil, onTapOutside: (() -> Void)? = nil, options: SOCOptions = [], dismissOnTapOutside: Bool = true, backgroundColor: Color = Color(.systemGray6), content: @escaping () -> Content) {
         self.isPresented = isPresented
         self.onDismiss = onDismiss
         self.dismissOnTapOutside = dismissOnTapOutside
