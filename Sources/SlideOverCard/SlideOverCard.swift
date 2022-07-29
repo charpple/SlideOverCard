@@ -94,7 +94,7 @@ public struct SlideOverCard<Content: View>: View, KeyboardReadable {
                             .edgesIgnoringSafeArea(.bottom)
                             .zIndex(2)
                     }
-                }.transition(isiPad ? .asymmetric(insertion: AnyTransition.opacity.combined(with: .offset(x: 0, y: 200)).animation(.easeIn(duration: 0.25)), removal: AnyTransition.opacity.combined(with: .offset(x: 0, y: 200)).animation(.easeIn(duration: 0.1))) : .move(edge: .bottom).animation(.easeIn(duration: 0.5)))
+                }.transition(isiPad ? .asymmetric(insertion: AnyTransition.opacity.combined(with: .offset(x: 0, y: 200)).animation(.easeIn(duration: 0.25)), removal: AnyTransition.opacity.combined(with: .offset(x: 0, y: 200)).animation(.easeIn(duration: 0.1))) : .asymmetric(insertion: .move(edge: .bottom).animation(.easeIn(duration: 0.5)), removal: .move(edge: .bottom).animation(.easeIn(duration: 0.1))))
                 
             }
         }
