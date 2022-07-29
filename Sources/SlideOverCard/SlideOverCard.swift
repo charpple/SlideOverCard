@@ -98,7 +98,7 @@ public struct SlideOverCard<Content: View>: View, KeyboardReadable {
                 
             }
         }
-        .animation(.spring(response: 0.35, dampingFraction: 1).delay(0.1))
+        .animation(.spring(response: 0.35, dampingFraction: 1))
         
     }
     
