@@ -58,8 +58,7 @@ public struct SlideOverCard<Content: View>: View, KeyboardReadable {
                 
                 Color.black.opacity(0.5)
                     .edgesIgnoringSafeArea(.all)
-                    .transition(.opacity.animation(.easeIn(duration: 0.5)))
-                    
+                    .transition(.asymmetric(insertion: .opacity.animation(.easeIn(duration: 0.25)), removal: .opacity.animation(.easeIn(duration: 0.1))))
                     .onTapGesture {
                         if onTapOutside == nil{
                             if dismissOnTapOutside{
@@ -95,7 +94,7 @@ public struct SlideOverCard<Content: View>: View, KeyboardReadable {
                             .edgesIgnoringSafeArea(.bottom)
                             .zIndex(2)
                     }
-                }.transition(isiPad ? AnyTransition.opacity.combined(with: .offset(x: 0, y: 200)).animation(.easeIn(duration: 0.5)) : .move(edge: .bottom).animation(.easeIn(duration: 0.5)))
+                }.transition(isiPad ? .asymmetric(insertion: AnyTransition.opacity.combined(with: .offset(x: 0, y: 200)).animation(.easeIn(duration: 0.25)), removal: AnyTransition.opacity.combined(with: .offset(x: 0, y: 200)).animation(.easeIn(duration: 0.1))) : .move(edge: .bottom).animation(.easeIn(duration: 0.5)))
                 
             }
         }
