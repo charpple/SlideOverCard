@@ -125,7 +125,7 @@ public struct SlideOverCard<Content: View>: View, KeyboardReadable {
             
             content
                 .padding([.horizontal, options.contains(.hideExitButton) ? .vertical : .bottom], 14)
-                .transition(.asymmetric(insertion: .move(edge: .bottom).animation(.easeIn(duration: 0.5)), removal: .move(edge: .bottom).animation(.easeIn(duration: 0.1))))
+                .transition(.asymmetric(insertion: .move(edge: .bottom).animation(.easeIn(duration: 0.0)), removal: .move(edge: .bottom).animation(.easeIn(duration: 0.1))))
         }.padding(20)
         .background(RoundedRectangle(cornerRadius: 38.5, style: .continuous)
                         .fill(backgroundColor))
